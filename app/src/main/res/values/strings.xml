@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">HomeWorks №09</string>
+    <string name="activity_add">Add</string>
+    <string name="activity_descr">Description</string>
+    <string name="activity_list">List</string>
+    <string name="alert1">Do you want to deleting</string>
+    <string name="btn_add">ADD</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_login">Log in</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_share">Share</string>
+    <string name="delete">Deleting country</string>
+    <string name="description">Description</string>
+    <string name="error_login">Enter login</string>
+    <string name="error_pass">Enter password</string>
+    <string name="hint_login">Enter login</string>
+    <string name="hint_pass">Enter password</string>
+    <string name="img">image here</string>
+    <string name="toast">very short password</string>
+    <string name="toast1">successfully clicked 1</string>
+    <string name="toast2">successfully clicked 2</string>
+    <string name="toast3">something wrong</string>
+    <string name="toast4">Delete was successful</string>
+    <string name="tv_city">Столица: </string>
+    <string name="tv_country">Страна: </string>
+    <string name="tv_forget">Forget</string>
+    <string name="tv_signup">Sign Up</string>
+
+    <string name="lorem">
+        \t Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec nibh non tellus finibus pellentesque. Donec dignissim, tellus nec semper bibendum, tellus ipsum blandit eros, quis mattis nisi nisl eget felis. In justo purus, fermentum non risus sit amet, laoreet pharetra massa. Proin sapien justo, tempus et condimentum a, suscipit a enim. Nam convallis at tortor non elementum. Morbi nec rutrum ligula. Quisque tincidunt nulla euismod efficitur placerat.
+        \n\t Nullam lobortis dui a nunc facilisis mollis. Morbi nec nisi placerat mi ornare porta. Donec luctus, tellus vel vulputate rhoncus, nibh odio ultrices arcu, nec fringilla mauris felis eget ligula. Sed laoreet lectus id est condimentum, vulputate semper nibh vulputate. Sed nec est non nulla dictum faucibus. Nullam pulvinar enim a nibh fermentum posuere. Suspendisse nisi enim, pharetra dapibus dignissim in, tempus sit amet risus. Proin ac diam tincidunt, pellentesque nulla in, auctor orci.
+        \n\t Morbi nec commodo ante. Vestibulum fringilla augue non diam vulputate suscipit. Aliquam vitae eros sit amet est pharetra ultrices. Duis a dolor dignissim mi hendrerit interdum. Aliquam erat volutpat. Quisque tincidunt nisi ligula, porttitor hendrerit libero aliquam ut. Mauris imperdiet, leo vel mollis fermentum, velit ipsum maximus mi, ut faucibus magna lorem in metus. Suspendisse ut enim in nisi feugiat aliquet. In lobortis tincidunt ligula, a gravida felis. Suspendisse id dui dolor. Nullam sed pharetra massa. Vestibulum aliquet elementum sem, egestas feugiat dolor porta non. Aenean justo risus, euismod et sollicitudin eu, ornare bibendum quam.
+        \n\t Fusce porttitor augue arcu, id placerat mauris congue vitae. Nunc ex eros, accumsan sed nisl id, vulputate congue eros. Mauris porta sodales faucibus. Aliquam rhoncus in velit tempor posuere. Duis sit amet lorem eget dui ornare elementum. Cras dictum mattis ultrices. Donec sed est varius, imperdiet odio et, placerat eros. Nullam et bibendum risus. In congue nisi id erat viverra consequat. Etiam a ornare risus. Phasellus mollis nisl luctus, hendrerit velit sed, bibendum elit. Donec dignissim, orci quis accumsan semper, elit tellus tempor leo, a ultrices nisl lacus non mauris. Proin scelerisque fringilla interdum.
+        \n\t Donec tempor magna at orci accumsan hendrerit. Suspendisse lacinia ipsum semper dignissim rhoncus. Sed eleifend leo aliquet, rhoncus augue et, tempus arcu. Phasellus porttitor cursus tortor, id viverra purus blandit id. Praesent sed fermentum nulla. Ut lobortis urna lectus, ac sagittis nulla bibendum eu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus a venenatis tortor. Sed vel lacus nec nisl mollis vestibulum. Vivamus imperdiet hendrerit risus a porttitor. Ut aliquam, nibh vel vehicula finibus, ante velit ullamcorper sapien, in congue orci felis sit amet neque. Vivamus pulvinar sapien quam.
+    </string>
+</resources>
