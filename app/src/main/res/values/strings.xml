@@ -17,6 +17,7 @@
     <string name="hint_pass">Введите пароль</string>
     <string name="img">image here</string>
     <string name="no">Нет</string>
+    <string name="no2">Нет, так нет...</string>
     <string name="toast">очень короткий пароль</string>
     <string name="toast1">успешно нажал 1</string>
     <string name="toast2">успешно нажал 2</string>

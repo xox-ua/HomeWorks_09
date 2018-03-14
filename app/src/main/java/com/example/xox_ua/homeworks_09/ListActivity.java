@@ -114,7 +114,6 @@ public class ListActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 dialogInterface.cancel();
-
                                 // удаляем выбранную позицию
                                 countriesData.remove(position);
                                 // уведомляем, что данные изменились
@@ -124,7 +123,7 @@ public class ListActivity extends BaseActivity {
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(ListActivity.this, "No it's mean no", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ListActivity.this, R.string.no2, Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setCancelable(false)
