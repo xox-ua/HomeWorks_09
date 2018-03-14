@@ -15,20 +15,17 @@ import com.example.xox_ua.homeworks_09.Base.BaseActivity;
 import butterknife.BindView;
 
 public class DescriptionActivity extends BaseActivity {
-    @BindView(R.id.ivFlgDescr)
-    ImageView ivImgDescr;
-    @BindView(R.id.tvCountryDescr)
-    TextView tvCountryDescr;
-    @BindView(R.id.tvCityDescr)
-    TextView tvCityDescr;
-    @BindView(R.id.tvDescr)
-    TextView tvDescr;
-    @BindView(R.id.ratingBarDescr)
-    RatingBar ratingBarDescr;
-    @BindView(R.id.btnBack)
-    Button btnBack;
-    @BindView(R.id.btnShare)
-    Button btnShare;
+    @BindView(R.id.ivFlgDescr) ImageView ivImgDescr;
+    @BindView(R.id.tvCountryDescr) TextView tvCountryDescr;
+    @BindView(R.id.tvCityDescr) TextView tvCityDescr;
+    @BindView(R.id.tvDescr) TextView tvDescr;
+    @BindView(R.id.ratingBarDescr) RatingBar ratingBarDescr;
+    @BindView(R.id.btnBack) Button btnBack;
+    @BindView(R.id.btnShare) Button btnShare;
+    String descrCo;
+    String descrCi;
+    int descrR;
+    String descrD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +41,19 @@ public class DescriptionActivity extends BaseActivity {
             assert extras != null;
             Bitmap descrI = (Bitmap) extras.getParcelable("getImage");
             Intent intent = getIntent();
-            String descrT = intent.getStringExtra("getCountry");
-            String descrA = intent.getStringExtra("getCapital");
-            int descrR = intent.getIntExtra("getRating", 0);
-            String descrD = intent.getStringExtra("getDescr");
+            descrCo = intent.getStringExtra("getCountry");
+            descrCi = intent.getStringExtra("getCapital");
+            descrR = intent.getIntExtra("getRating", 0);
+            descrD = intent.getStringExtra("getDescr");
             // выводим полученные данные в соотвествующих областях
             ivImgDescr.setImageBitmap(descrI);
-            tvCountryDescr.setText(descrT);
-            tvCityDescr.setText(descrA);
+            tvCountryDescr.setText(descrCo);
+            tvCityDescr.setText(descrCi);
             ratingBarDescr.setRating(descrR);
             tvDescr.setText(descrD);
         } else {
             //интент не получен
-            Toast.makeText(getApplicationContext(), R.string.toast3, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.toast1, Toast.LENGTH_SHORT).show();
         }
 
         // кнопка назад
@@ -73,7 +70,7 @@ public class DescriptionActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                String shareBody = "Here is the share content body";
+                String shareBody = descrCo + "\n" + descrCi + "\nРейтинг: " + descrR + "\n" + descrD;
                 sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));

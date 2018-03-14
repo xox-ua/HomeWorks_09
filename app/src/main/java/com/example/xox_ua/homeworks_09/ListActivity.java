@@ -100,27 +100,28 @@ public class ListActivity extends BaseActivity {
         // ПРОДОЛЖИТЕЛЬНОЕ НАЖАТИЕ на строку в ListView (item) - удаление строки
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 TextView txtView1 = (TextView) view.findViewById(R.id.tvCountry);
                 String getCo = txtView1.getText().toString();   // берём текст из вьюхи страны
+
 
                 // добавляем AlertDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
                 builder.setTitle(R.string.delete)
                         .setIcon(R.drawable.zz_alert)
                         .setMessage(getResources().getString(R.string.alert1) + " " + getCo + "?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 dialogInterface.cancel();
 
                                 // удаляем выбранную позицию
-                               // countriesData.remove(position);
+                                countriesData.remove(position);
                                 // уведомляем, что данные изменились
                                 ad.notifyDataSetChanged();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(ListActivity.this, "No it's mean no", Toast.LENGTH_SHORT).show();
