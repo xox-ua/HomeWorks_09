@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,18 +15,16 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.xox_ua.homeworks_09.Base.BaseActivity;
-
+import com.example.xox_ua.homeworks_09.base.BaseActivity;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 public class ListActivity extends BaseActivity {
-    @BindView(R.id.lv)
-    ListView lv;
-    @BindView(R.id.btnAdd)
-    ImageView btnAdd;
+    @BindView(R.id.lv) ListView lv;
+    @BindView(R.id.btnAdd) ImageView btnAdd;
     ArrayAdapter<Country> ad;                           // адаптер
     List<Country> countriesData = new ArrayList<>();    // источник данных
     String getD;
@@ -59,18 +58,27 @@ public class ListActivity extends BaseActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // берём данные из countriesData
+                Country xxx = countriesData.get(position);      // определяем коллекцию по позиции
+                int getF = xxx.getFlagId();                     // берём id: флаг
+                String getCo = xxx.getCountryName();            // берём текст: страна
+                String getCi = xxx.getCapitalName();            // берём текст: столица
+                int getR = xxx.getRatingBar();                  // берём id: рейтинг
+
+
                 // определяем вьюхи в строке из которых надо взять данные
-                ImageView imageView = (ImageView) view.findViewById(R.id.ivFlg);        // флаг
-                TextView txtView1 = (TextView) view.findViewById(R.id.tvCountry);       // страна
-                TextView txtView2 = (TextView) view.findViewById(R.id.tvCapital);       // столица
-                RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);    // рейтинг
+                //ImageView mImageView = (ImageView) view.findViewById(R.id.ivFlg);        // флаг
+                //TextView mTextView1 = (TextView) view.findViewById(R.id.tvCountry);       // страна
+                //TextView mTextView2 = (TextView) view.findViewById(R.id.tvCapital);       // столица
+                //RatingBar mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);    // рейтинг
 
                 // берём данные
-                imageView.buildDrawingCache();                  // создаём кеш изображения imageView
-                Bitmap getF = imageView.getDrawingCache();      // берём этот кэш
-                String getCo = txtView1.getText().toString();   // берём текст из вьюхи страны
-                String getCC = txtView2.getText().toString();   // берём текст из вьюхи столицы
-                int getR = (int) ratingBar.getRating();         // берём цифру из вьюхи рейтинга
+                //mImageView.buildDrawingCache();                  // создаём кеш изображения imageView
+                //Bitmap getF = mImageView.getDrawingCache();      // берём этот кэш
+                //String getCo = mTextView1.getText().toString();   // берём текст из вьюхи страны
+                //String getCC = mTextView2.getText().toString();   // берём текст из вьюхи столицы
+                //int getR = (int) mRatingBar.getRating();         // берём цифру из вьюхи рейтинга
+
                 // считываем сохранённое Описание
                 SharedPreferences prefs = getSharedPreferences(DESCR, MODE_PRIVATE);
                 String restoredText = prefs.getString("text", null);
@@ -82,14 +90,12 @@ public class ListActivity extends BaseActivity {
                     // то передаём описание из пришедшего интента
                     getD = prefs.getString("newD", "No name defined");
                 }
-                // передаём данные с помощью бандла и интента
-                Bundle extras = new Bundle();
+                // передаём данные с помощью интента
                 // окуда и куда передаём
                 Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
-                extras.putParcelable("getImage", getF);
-                intent.putExtras(extras);
+                intent.putExtra("getFlag", getF);
                 intent.putExtra("getCountry", getCo);
-                intent.putExtra("getCapital", getCC);
+                intent.putExtra("getCapital", getCi);
                 intent.putExtra("getRating", getR);
                 intent.putExtra("getDescr", getD);
                 intent.putExtra("Notification", true);
@@ -123,14 +129,12 @@ public class ListActivity extends BaseActivity {
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(ListActivity.this, R.string.no2, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ListActivity.this, R.string.no2, LENGTH_SHORT).show();
                             }
                         })
                         .setCancelable(false)
                         .create()
                         .show();
-
-
                 return true;
             }
         });
@@ -164,7 +168,7 @@ public class ListActivity extends BaseActivity {
                     // после добавления нового пункта проматываем ListView в самый конец
                     lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
                 }else {
-                    Toast.makeText(getApplicationContext(), R.string.toast3, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toast3, LENGTH_SHORT).show();
                 }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.xox_ua.homeworks_09.Data;
+package com.example.xox_ua.homeworks_09.data;
 
 import com.example.xox_ua.homeworks_09.Country;
 import com.example.xox_ua.homeworks_09.R;

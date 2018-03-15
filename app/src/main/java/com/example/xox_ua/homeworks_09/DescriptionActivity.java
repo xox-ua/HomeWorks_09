@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.xox_ua.homeworks_09.Base.BaseActivity;
+import com.example.xox_ua.homeworks_09.base.BaseActivity;
 
 import butterknife.BindView;
 
@@ -22,6 +23,7 @@ public class DescriptionActivity extends BaseActivity {
     @BindView(R.id.ratingBarDescr) RatingBar ratingBarDescr;
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.btnShare) Button btnShare;
+    int descrI;
     String descrCo;
     String descrCi;
     int descrR;
@@ -39,14 +41,15 @@ public class DescriptionActivity extends BaseActivity {
             // получаем интент
             Bundle extras = getIntent().getExtras();
             assert extras != null;
-            Bitmap descrI = (Bitmap) extras.getParcelable("getImage");
+            //Bitmap descrI = (Bitmap) extras.getParcelable("getImage");
             Intent intent = getIntent();
+            descrI = intent.getIntExtra("getFlag", 0);
             descrCo = intent.getStringExtra("getCountry");
             descrCi = intent.getStringExtra("getCapital");
             descrR = intent.getIntExtra("getRating", 0);
             descrD = intent.getStringExtra("getDescr");
             // выводим полученные данные в соотвествующих областях
-            ivImgDescr.setImageBitmap(descrI);
+            ivImgDescr.setImageResource(descrI);
             tvCountryDescr.setText(descrCo);
             tvCityDescr.setText(descrCi);
             ratingBarDescr.setRating(descrR);

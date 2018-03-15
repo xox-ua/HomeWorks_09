@@ -1,8 +1,8 @@
-package com.example.xox_ua.homeworks_09.Base;
+package com.example.xox_ua.homeworks_09.base;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import com.example.xox_ua.homeworks_09.Data.DataManager;
+import com.example.xox_ua.homeworks_09.data.DataManager;
 
 import butterknife.ButterKnife;
 

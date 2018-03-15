@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.xox_ua.homeworks_09.Base.BaseActivity;
+import com.example.xox_ua.homeworks_09.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
     public EditText etLogin;
