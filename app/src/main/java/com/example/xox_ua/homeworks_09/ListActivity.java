@@ -94,7 +94,7 @@ public class ListActivity extends BaseActivity {
             }
         });
 
-
+        // НАЖАТИЕ на ячейку списка
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     // КОРОТКОЕ НАЖАТИЕ на строку в ListView (item)
@@ -187,8 +187,9 @@ public class ListActivity extends BaseActivity {
                     countriesData.add(new Country(newCo, newCi, newF, newR));
                     // уведомляем, что данные изменились
                     mCustomRVAdapter.notifyDataSetChanged();
-                    // после добавления нового пункта проматываем ListView в самый конец
-                    //lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                    // после добавления нового пункта проматываем RecyclerView в самый конец
+                    mRecyclerView.scrollToPosition(mCustomRVAdapter.getItemCount()-1);
+
                 }else {
                     Toast.makeText(getApplicationContext(), R.string.toast3, LENGTH_SHORT).show();
                 }
