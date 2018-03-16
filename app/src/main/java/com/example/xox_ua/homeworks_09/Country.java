@@ -14,10 +14,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Country {
-    private @Getter @Setter
-    String countryName;     // сохраняем название страны
-    private @Getter @Setter
-    String capitalName;     // сохраняем название столицы
+    private @Getter @Setter String countryName;     // сохраняем название страны
+    private @Getter @Setter String capitalName;     // сохраняем название столицы
     private @Getter @Setter int flagId;             // сохраняем id флага
     private @Getter @Setter int ratingBar;          // сохраняем цифровое значение рейтинга
 

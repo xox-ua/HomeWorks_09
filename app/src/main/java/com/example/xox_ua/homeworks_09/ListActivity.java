@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.xox_ua.homeworks_09.base.BaseActivity;
 import com.example.xox_ua.homeworks_09.utils.ItemClickSupport;
+import com.example.xox_ua.homeworks_09.utils.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ import butterknife.BindView;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class ListActivity extends BaseActivity {
-    @BindView(R.id.lv) ListView lv;
+    //@BindView(R.id.lv) ListView lv;
     @BindView(R.id.btnAdd) ImageView btnAdd;
     @BindView(R.id.layoutWithBTN) LinearLayout layoutWithBTN;
     ArrayAdapter<Country> ad;                           // адаптер
@@ -40,6 +43,9 @@ public class ListActivity extends BaseActivity {
     String getD;
     public static final String DESCR = "Description";
     @BindView(R.id.swipe) SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.rv) RecyclerView mRecyclerView;
+    private CustomRVAdapter mCustomRVAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +56,18 @@ public class ListActivity extends BaseActivity {
         countriesData = mDataManager.fetchMocks();
         // Создаем адаптер для преобразования массива в представления (array to views)
         // 1: контекст, 2: идентификатор ресурса с разметкой для каждой строки, 3: массив данных
-        ad = new CountryAdapter(this, R.layout.list_item, countriesData);
+        //ad = new CountryAdapter(this, R.layout.list_item, countriesData);
         // устанавливаем адаптер для ListView
-        lv.setAdapter(ad);
+        //lv.setAdapter(ad);
+
+        mCustomRVAdapter = new CustomRVAdapter();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
+
+        mRecyclerView.setAdapter(mCustomRVAdapter);
+
+        mCustomRVAdapter.setCountries(countriesData);
+
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override public void onRefresh() {
@@ -60,8 +75,8 @@ public class ListActivity extends BaseActivity {
                     @Override
                     public void run() {
                         // заново наполняем данными ListView
-                        ad = new CountryAdapter(ListActivity.this, R.layout.list_item, countriesData);
-                        lv.setAdapter(ad);
+                        //ad = new CountryAdapter(ListActivity.this, R.layout.list_item, countriesData);
+                        //lv.setAdapter(ad);
 
                         // что-то типа подтверждения события -=- меняем цвет фона в подвале с кнопками
                         Random rnd = new Random();
@@ -85,75 +100,75 @@ public class ListActivity extends BaseActivity {
             }
         });
 
-        // КОРОТКОЕ НАЖАТИЕ на строку в ListView (item)
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            //@Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // берём данные из countriesData (по позиции)
-                int getF = (countriesData.get(position)).getFlagId();           // берём id: флаг
-                String getCo = (countriesData.get(position)).getCountryName();  // берём текст: страна
-                String getCi = (countriesData.get(position)).getCapitalName();  // берём текст: столица
-                int getR = (countriesData.get(position)).getRatingBar();        // берём id: рейтинг
-
-                // считываем сохранённое Описание
-                SharedPreferences prefs = getSharedPreferences(DESCR, MODE_PRIVATE);
-                String restoredText = prefs.getString("text", null);
-                if (restoredText == null & !getCo.contains(" - NEW!")) {
-                    // если описание отсутствует показываем рыбу
-                    getD = getResources().getString(R.string.lorem);
-                } else if (getCo.contains(" - NEW!")){
-                    // если это введённое пользователем описание (в AddActivity),
-                    // то передаём описание из пришедшего интента
-                    getD = prefs.getString("newD", "No name defined");
-                }
-                // передаём данные с помощью интента
-                // окуда и куда передаём
-                Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
-                intent.putExtra("getFlag", getF);
-                intent.putExtra("getCountry", getCo);
-                intent.putExtra("getCapital", getCi);
-                intent.putExtra("getRating", getR);
-                intent.putExtra("getDescr", getD);
-                intent.putExtra("Notification", true);
-                startActivity(intent);
-            }
-        });
-
-        // ПРОДОЛЖИТЕЛЬНОЕ НАЖАТИЕ на строку в ListView (item) - удаление строки
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                TextView txtView1 = (TextView) view.findViewById(R.id.tvCountry);
-                String getCo = txtView1.getText().toString();   // берём текст из вьюхи страны
-
-
-                // добавляем AlertDialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
-                builder.setTitle(R.string.delete)
-                        .setIcon(R.drawable.zz_alert)
-                        .setMessage(getResources().getString(R.string.alert1) + " " + getCo + "?")
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                dialogInterface.cancel();
-                                // удаляем выбранную позицию
-                                countriesData.remove(position);
-                                // уведомляем, что данные изменились
-                                ad.notifyDataSetChanged();
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(ListActivity.this, R.string.no2, LENGTH_SHORT).show();
-                            }
-                        })
-                        .setCancelable(false)
-                        .create()
-                        .show();
-                return true;
-            }
-        });
+//        // КОРОТКОЕ НАЖАТИЕ на строку в ListView (item)
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            //@Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                // берём данные из countriesData (по позиции)
+//                int getF = (countriesData.get(position)).getFlagId();           // берём id: флаг
+//                String getCo = (countriesData.get(position)).getCountryName();  // берём текст: страна
+//                String getCi = (countriesData.get(position)).getCapitalName();  // берём текст: столица
+//                int getR = (countriesData.get(position)).getRatingBar();        // берём id: рейтинг
+//
+//                // считываем сохранённое Описание
+//                SharedPreferences prefs = getSharedPreferences(DESCR, MODE_PRIVATE);
+//                String restoredText = prefs.getString("text", null);
+//                if (restoredText == null & !getCo.contains(" - NEW!")) {
+//                    // если описание отсутствует показываем рыбу
+//                    getD = getResources().getString(R.string.lorem);
+//                } else if (getCo.contains(" - NEW!")){
+//                    // если это введённое пользователем описание (в AddActivity),
+//                    // то передаём описание из пришедшего интента
+//                    getD = prefs.getString("newD", "No name defined");
+//                }
+//                // передаём данные с помощью интента
+//                // окуда и куда передаём
+//                Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
+//                intent.putExtra("getFlag", getF);
+//                intent.putExtra("getCountry", getCo);
+//                intent.putExtra("getCapital", getCi);
+//                intent.putExtra("getRating", getR);
+//                intent.putExtra("getDescr", getD);
+//                intent.putExtra("Notification", true);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        // ПРОДОЛЖИТЕЛЬНОЕ НАЖАТИЕ на строку в ListView (item) - удаление строки
+//        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//                TextView txtView1 = (TextView) view.findViewById(R.id.tvCountry);
+//                String getCo = txtView1.getText().toString();   // берём текст из вьюхи страны
+//
+//
+//                // добавляем AlertDialog
+//                AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+//                builder.setTitle(R.string.delete)
+//                        .setIcon(R.drawable.zz_alert)
+//                        .setMessage(getResources().getString(R.string.alert1) + " " + getCo + "?")
+//                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int which) {
+//                                dialogInterface.cancel();
+//                                // удаляем выбранную позицию
+//                                countriesData.remove(position);
+//                                // уведомляем, что данные изменились
+//                                ad.notifyDataSetChanged();
+//                            }
+//                        })
+//                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Toast.makeText(ListActivity.this, R.string.no2, LENGTH_SHORT).show();
+//                            }
+//                        })
+//                        .setCancelable(false)
+//                        .create()
+//                        .show();
+//                return true;
+//            }
+//        });
     }
 
     // получение интента из AddActivity и добавление новой строки в ListView
@@ -182,7 +197,7 @@ public class ListActivity extends BaseActivity {
                     // уведомляем, что данные изменились
                     ad.notifyDataSetChanged();
                     // после добавления нового пункта проматываем ListView в самый конец
-                    lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                    //lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
                 }else {
                     Toast.makeText(getApplicationContext(), R.string.toast3, LENGTH_SHORT).show();
                 }
