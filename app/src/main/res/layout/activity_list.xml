@@ -7,14 +7,21 @@
     tools:context="com.example.xox_ua.homeworks_09.ListActivity"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/lv"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:divider="@color/colorPrimary"
-        android:dividerHeight="1dp" >
-    </ListView>
+        android:layout_weight="1" >
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorPrimary"
+            android:dividerHeight="1dp" >
+        </ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <!--<android.support.v7.widget.RecyclerView-->
         <!--android:id="@+id/rv"-->
@@ -24,6 +31,7 @@
     <!--</android.support.v7.widget.RecyclerView>-->
 
     <LinearLayout
+        android:id="@+id/layoutWithBTN"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="10"

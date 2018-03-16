@@ -4,20 +4,29 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.xox_ua.homeworks_09.base.BaseActivity;
+import com.example.xox_ua.homeworks_09.utils.ItemClickSupport;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import butterknife.BindView;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -25,10 +34,12 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class ListActivity extends BaseActivity {
     @BindView(R.id.lv) ListView lv;
     @BindView(R.id.btnAdd) ImageView btnAdd;
+    @BindView(R.id.layoutWithBTN) LinearLayout layoutWithBTN;
     ArrayAdapter<Country> ad;                           // адаптер
     List<Country> countriesData = new ArrayList<>();    // источник данных
     String getD;
     public static final String DESCR = "Description";
+    @BindView(R.id.swipe) SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +53,26 @@ public class ListActivity extends BaseActivity {
         ad = new CountryAdapter(this, R.layout.list_item, countriesData);
         // устанавливаем адаптер для ListView
         lv.setAdapter(ad);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // заново наполняем данными ListView
+                        ad = new CountryAdapter(ListActivity.this, R.layout.list_item, countriesData);
+                        lv.setAdapter(ad);
+
+                        // что-то типа подтверждения события -=- меняем цвет фона в подвале с кнопками
+                        Random rnd = new Random();
+                        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                        layoutWithBTN.setBackgroundColor(color);
+
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
 
 
 
@@ -58,26 +89,11 @@ public class ListActivity extends BaseActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // берём данные из countriesData
-                Country xxx = countriesData.get(position);      // определяем коллекцию по позиции
-                int getF = xxx.getFlagId();                     // берём id: флаг
-                String getCo = xxx.getCountryName();            // берём текст: страна
-                String getCi = xxx.getCapitalName();            // берём текст: столица
-                int getR = xxx.getRatingBar();                  // берём id: рейтинг
-
-
-                // определяем вьюхи в строке из которых надо взять данные
-                //ImageView mImageView = (ImageView) view.findViewById(R.id.ivFlg);        // флаг
-                //TextView mTextView1 = (TextView) view.findViewById(R.id.tvCountry);       // страна
-                //TextView mTextView2 = (TextView) view.findViewById(R.id.tvCapital);       // столица
-                //RatingBar mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);    // рейтинг
-
-                // берём данные
-                //mImageView.buildDrawingCache();                  // создаём кеш изображения imageView
-                //Bitmap getF = mImageView.getDrawingCache();      // берём этот кэш
-                //String getCo = mTextView1.getText().toString();   // берём текст из вьюхи страны
-                //String getCC = mTextView2.getText().toString();   // берём текст из вьюхи столицы
-                //int getR = (int) mRatingBar.getRating();         // берём цифру из вьюхи рейтинга
+                // берём данные из countriesData (по позиции)
+                int getF = (countriesData.get(position)).getFlagId();           // берём id: флаг
+                String getCo = (countriesData.get(position)).getCountryName();  // берём текст: страна
+                String getCi = (countriesData.get(position)).getCapitalName();  // берём текст: столица
+                int getR = (countriesData.get(position)).getRatingBar();        // берём id: рейтинг
 
                 // считываем сохранённое Описание
                 SharedPreferences prefs = getSharedPreferences(DESCR, MODE_PRIVATE);
