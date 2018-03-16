@@ -17,8 +17,7 @@ class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.CountryViewHo
 
     @Override public CountryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new CustomRVAdapter.CountryViewHolder(v);
     }
 
@@ -35,7 +34,7 @@ class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.CountryViewHo
         notifyDataSetChanged();
     }
 
-    public void addCountries(List<Country> countries) {
+    void addCountries(List<Country> countries) {
         mCountries.addAll(countries);
         notifyDataSetChanged();
     }

@@ -3,27 +3,19 @@ package com.example.xox_ua.homeworks_09;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.xox_ua.homeworks_09.base.BaseActivity;
-import com.example.xox_ua.homeworks_09.utils.ItemClickSupport;
 import com.example.xox_ua.homeworks_09.utils.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -129,7 +121,7 @@ public class ListActivity extends BaseActivity {
                     }
 
                     // ПРОДОЛЖИТЕЛЬНОЕ НАЖАТИЕ на строку в ListView (item) - удаление строки
-                    @Override public void onLongItemClick(View view, final int position) {
+                    @Override public boolean onLongItemClick(View view, final int position) {
                         String getCo = (countriesData.get(position)).getCountryName();  // берём текст: страна
 
                         // добавляем AlertDialog
@@ -156,7 +148,7 @@ public class ListActivity extends BaseActivity {
                                 .setCancelable(false)
                                 .create()
                                 .show();
-                        //return true;
+                        return true;
                     }
                 })
         );
