@@ -30,14 +30,11 @@ public class ListActivity extends BaseActivity {
     @BindView(R.id.rv) RecyclerView mRecyclerView;
     @BindView(R.id.btnAdd) ImageView btnAdd;
     @BindView(R.id.layoutWithBTN) LinearLayout layoutWithBTN;
+    @BindView(R.id.swipe) SwipeRefreshLayout mSwipeRefreshLayout;
     CustomRVAdapter mCustomRVAdapter;                   // адаптер
     List<Country> countriesData = new ArrayList<>();    // источник данных
     String getD;
     public static final String DESCR = "Description";
-    @BindView(R.id.swipe) SwipeRefreshLayout mSwipeRefreshLayout;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +45,12 @@ public class ListActivity extends BaseActivity {
         countriesData = mDataManager.fetchMocks();
         // Создаем адаптер для преобразования массива в представления (array to views)
         mCustomRVAdapter = new CustomRVAdapter();
+        mCustomRVAdapter.setCountries(countriesData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        // разделитель для ячеек
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
         // устанавливаем адаптер для RecyclerView
         mRecyclerView.setAdapter(mCustomRVAdapter);
-
-        mCustomRVAdapter.setCountries(countriesData);
 
         // SWIPE-обновлялка контейнера
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -66,9 +63,7 @@ public class ListActivity extends BaseActivity {
                         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(ListActivity.this));
                         // устанавливаем адаптер для RecyclerView
                         mRecyclerView.setAdapter(mCustomRVAdapter);
-
                         mCustomRVAdapter.setCountries(countriesData);
-
                         // что-то типа подтверждения события -=- меняем цвет фона в подвале с кнопками
                         Random rnd = new Random();
                         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
@@ -127,7 +122,6 @@ public class ListActivity extends BaseActivity {
                     // ПРОДОЛЖИТЕЛЬНОЕ НАЖАТИЕ на строку в ListView (item) - удаление строки
                     @Override public boolean onLongItemClick(View view, final int position) {
                         String getCo = (countriesData.get(position)).getCountryName();  // берём текст: страна
-
                         // добавляем AlertDialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
                         builder.setTitle(R.string.delete)
@@ -140,7 +134,8 @@ public class ListActivity extends BaseActivity {
                                         // удаляем выбранную позицию
                                         countriesData.remove(position);
                                         // уведомляем, что данные изменились
-                                        mCustomRVAdapter.notifyItemRemoved(position);
+                                        mCustomRVAdapter.setCountries(countriesData);
+                                        mCustomRVAdapter.notifyDataSetChanged();
                                     }
                                 })
                                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -181,6 +176,8 @@ public class ListActivity extends BaseActivity {
                     // пришедший интент добавляем в коллекцию
                     // всю мешпуху в один обект и в список с которым работает адаптер
                     countriesData.add(new Country(newCo, newCi, newF, newR));
+                    // заново наполняем адаптер списком
+                    mCustomRVAdapter.setCountries(countriesData);
                     // уведомляем, что данные изменились
                     mCustomRVAdapter.notifyDataSetChanged();
                     // после добавления нового пункта проматываем RecyclerView в самый конец

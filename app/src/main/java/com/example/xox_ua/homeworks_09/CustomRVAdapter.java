@@ -1,5 +1,6 @@
 package com.example.xox_ua.homeworks_09;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import java.util.List;
 class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.CountryViewHolder> {
     private List<Country> mCountries = new ArrayList<>();
 
+    @NonNull
     @Override public CountryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
@@ -27,7 +29,6 @@ class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.CountryViewHo
         holder.mTextViewCountry.setText(mCountries.get(position).getCountryName());
         holder.mTextViewCity.setText(mCountries.get(position).getCapitalName());
         holder.mRatingBar.setRating(mCountries.get(position).getRatingBar());
-        Log.wtf("onBindViewHolder", "=============");
     }
 
     public void setCountries(List<Country> countries) {
