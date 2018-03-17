@@ -61,9 +61,13 @@ public class ListActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // заново наполняем данными ListView
-                        //ad = new CountryAdapter(ListActivity.this, R.layout.list_item, countriesData);
-                        //lv.setAdapter(ad);
+                        // заново наполняем данными RecyclerView
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(ListActivity.this));
+                        // устанавливаем адаптер для RecyclerView
+                        mRecyclerView.setAdapter(mCustomRVAdapter);
+
+                        mCustomRVAdapter.setCountries(countriesData);
 
                         // что-то типа подтверждения события -=- меняем цвет фона в подвале с кнопками
                         Random rnd = new Random();
@@ -136,7 +140,7 @@ public class ListActivity extends BaseActivity {
                                         // удаляем выбранную позицию
                                         countriesData.remove(position);
                                         // уведомляем, что данные изменились
-                                        mCustomRVAdapter.notifyDataSetChanged();
+                                        mCustomRVAdapter.notifyItemRemoved(position);
                                     }
                                 })
                                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

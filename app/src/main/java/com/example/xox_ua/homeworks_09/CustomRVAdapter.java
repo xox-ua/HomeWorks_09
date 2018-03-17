@@ -1,6 +1,7 @@
 package com.example.xox_ua.homeworks_09;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.CountryViewHo
         holder.mTextViewCountry.setText(mCountries.get(position).getCountryName());
         holder.mTextViewCity.setText(mCountries.get(position).getCapitalName());
         holder.mRatingBar.setRating(mCountries.get(position).getRatingBar());
+        Log.wtf("onBindViewHolder", "=============");
     }
 
     public void setCountries(List<Country> countries) {

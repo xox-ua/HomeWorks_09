@@ -12,20 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" >
-        <!--<ListView-->
-            <!--android:id="@+id/lv"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:divider="@color/colorPrimary"-->
-            <!--android:dividerHeight="1dp" >-->
-        <!--</ListView>-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
